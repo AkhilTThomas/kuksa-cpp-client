@@ -30,6 +30,16 @@ just build
 
 Proto sources are taken from the [repo](https://github.com/eclipse-kuksa/kuksa-databroker/tree/main/proto)
 
-## Example
+## Examples
 
-[example](example/example.cpp)
+There are two examples provided
+
+- based on kuksa::v1 API [example_v1](example/example_v1.cpp)
+- based on kuksa::v2 API [example_v2](example/example_v2.cpp)
+
+### Debug hints
+
+```shell
+export GRPC_TRACE=all
+export GRPC_VERBOSITY=DEBUG
+```

@@ -1,10 +1,11 @@
-#include <chrono>
+#include <ostream>
 #include <stdio.h>
-#include <thread>
 #include <unistd.h>
 
-#include "kuksa_client.h"
+#include "kuksa/val/v2/types.pb.h"
 #include <kuksa/val/v2/val.grpc.pb.h>
+
+#include "kuksa_client.h"
 
 using namespace kuksa;
 
@@ -31,19 +32,41 @@ void handleValue(const kuksa::val::v2::Value &value) {
   }
 }
 
+void on_data_reception_v2(const std::string &path,
+                          const kuksa::val::v2::Value &value) {
+  std::cout << "Received " << path << std::endl;
+  handleValue(value);
+}
+
+void on_data_reception_v1(const std::string &path,
+                          const kuksa::val::v1::Datapoint &value) {
+  std::cout << "Received " << path << std::endl;
+}
+
 int main() {
-  printf("Starting example ... \n");
+  std::cout << "Starting example for v2 ..." << std::endl;
   KuksaClient instance;
-  instance.connect("127.0.0.1:55555");
+  bool connectionStatus = instance.connect_v2("127.0.0.1:55555");
+  printf("Connection is %s \n",
+         (connectionStatus == true) ? "Succesfull" : "Failed");
   sleep(2);
+
   kuksa::val::v2::Value value{};
-  // if (instance.get("Vehicle.Speed", value)) {
-  // }
-  // handleValue(value);
-  // sleep(1);
+  if (instance.get("Vehicle.Speed", value)) {
+  }
+  handleValue(value);
+  sleep(1);
+
   value.set_float_(41.4f);
+
   std::cout << value.typed_value_case() << std::endl;
   instance.set("Vehicle.Speed", value);
+
+  std::vector<std::string> signals = {"Vehicle.Speed", "Vehicle.Width"};
+
+  instance.subscribe(signals, on_data_reception_v2);
+
+  sleep(10);
 
   return 0;
 }
