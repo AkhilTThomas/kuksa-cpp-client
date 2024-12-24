@@ -44,3 +44,6 @@ foreach(proto_file ${proto_files})
     PROTOS
     ${proto_file})
 endforeach()
+
+# install the proto generated types
+install(DIRECTORY ${PROTO_BINARY_DIR}/ DESTINATION include/kuksaclient)

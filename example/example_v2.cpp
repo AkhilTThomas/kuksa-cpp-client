@@ -2,10 +2,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "kuksa/val/v2/types.pb.h"
-#include <kuksa/val/v2/val.grpc.pb.h>
-
-#include "kuksa_client.h"
+#include "kuksaclient.h"
+#include <kuksa/val/v2/types.pb.h>
 
 using namespace kuksa;
 

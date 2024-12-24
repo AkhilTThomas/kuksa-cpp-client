@@ -1,8 +1,8 @@
-#include "kuksa_client.h"
 #include "kuksa/val/v1/types.pb.h"
 #include "kuksa/val/v1/val.pb.h"
 #include "kuksa/val/v2/types.pb.h"
 #include "kuksa/val/v2/val.pb.h"
+#include "kuksaclient.h"
 #include <grpcpp/grpcpp.h>
 #include <kuksa/val/v2/val.grpc.pb.h>
 #include <memory>

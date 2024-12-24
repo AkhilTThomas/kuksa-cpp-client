@@ -1,5 +1,5 @@
-#ifndef KUKSA_CLIENT_H
-#define KUKSA_CLIENT_H
+#ifndef KUKSACLIENT_H
+#define KUKSACLIENT_H
 #include "kuksa/val/v1/types.pb.h"
 #include <kuksa/val/v1/val.grpc.pb.h>
 #include <kuksa/val/v2/val.grpc.pb.h>
@@ -35,4 +35,4 @@ private:
   std::unique_ptr<KuksaClientImpl> mKuksaClient;
 };
 } // namespace kuksa
-#endif // KUKSA_CLIENT_H
+#endif // KUKSACLIENT_H

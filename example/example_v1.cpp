@@ -3,7 +3,7 @@
 #include <unistd.h>
 
 #include "kuksa/val/v1/types.pb.h"
-#include "kuksa_client.h"
+#include "kuksaclient.h"
 
 using namespace kuksa;
 
