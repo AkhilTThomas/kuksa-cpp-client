@@ -17,3 +17,11 @@ configure:
 
 build:
     conan build .
+
+# run the databroker in a seperate windows
+run-databroker:
+    tmux new-window -n kuksa docker run --rm -it -p 55555:55555 -v $(pwd):/tmp ghcr.io/eclipse-kuksa/kuksa-databroker:main --insecure --vss /tmp/data/vss-core/vss_release_4.0.json
+
+run-example-v2:
+    just run-databroker
+    tmux new-window -n example-v2 "./build/Release/bin/example_v2 || echo 'Process terminated. Press Enter to close.'; read"

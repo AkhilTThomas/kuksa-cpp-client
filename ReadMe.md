@@ -37,6 +37,12 @@ There are two examples provided
 - based on kuksa::v1 API [example_v1](example/example_v1.cpp)
 - based on kuksa::v2 API [example_v2](example/example_v2.cpp)
 
+### Running examples
+
+```shell
+just run-example-v2
+```
+
 ### Debug hints
 
 ```shell
