@@ -13,10 +13,10 @@ prepare:
     conan remote add conancenter https://center.conan.io
 
 configure:
-    conan install . --build=missing
+    conan install . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt  --build=missing
 
 build:
-    conan build .
+    conan build . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt
 
 # run the databroker in a seperate windows
 run-databroker:
