@@ -15,6 +15,7 @@
 #include "kuksa/val/v2/types.pb.h"
 #include "kuksa/val/v2/val.pb.h"
 #include "kuksaclient.h"
+#include <grpcpp/client_context.h>
 #include <grpcpp/grpcpp.h>
 #include <kuksa/val/v2/val.grpc.pb.h>
 #include <memory>
@@ -229,31 +230,6 @@ public:
     return true;
   }
 
-  bool set(const std::string &datapoint, const kuksa::val::v2::Value &value) {
-    mLogger->info("set invoked on {}", datapoint);
-
-    if (!mStubV2) {
-      mLogger->debug("Client not connected");
-      return false;
-    }
-
-    grpc::ClientContext context;
-    kuksa::val::v2::ActuateRequest request;
-    kuksa::val::v2::ActuateResponse response;
-
-    request.mutable_signal_id()->set_path(datapoint);
-    *request.mutable_value() = value;
-
-    grpc::Status status = mStubV2->Actuate(&context, request, &response);
-
-    if (!status.ok()) {
-      mLogger->debug("RPC failed: {}", status.error_message());
-      return false;
-    }
-
-    return true;
-  }
-
   void subscribe(const std::vector<std::string> &datapoints,
                  kuksaCallbackV2 callback) {
 
@@ -309,6 +285,70 @@ public:
     mSubscribeThread.detach();
   }
 
+  bool actuate(const std::string &datapoint,
+               const kuksa::val::v2::Value &value) {
+    mLogger->info("actuate invoked on {}", datapoint);
+
+    if (!mStubV2) {
+      mLogger->debug("Client not connected");
+      return false;
+    }
+
+    grpc::ClientContext context;
+    kuksa::val::v2::ActuateRequest request;
+    kuksa::val::v2::ActuateResponse response;
+
+    request.mutable_signal_id()->set_path(datapoint);
+    *request.mutable_value() = value;
+
+    grpc::Status status = mStubV2->Actuate(&context, request, &response);
+
+    if (!status.ok()) {
+      mLogger->debug("RPC failed: {}", status.error_message());
+      return false;
+    }
+
+    return true;
+  }
+
+  bool publishValue(const std::string &datapoint,
+                    const kuksa::val::v2::Value &value) {
+    mLogger->info("publish invoked on {}", datapoint);
+
+    if (!mStubV2) {
+      mLogger->debug("Client not connected");
+      return false;
+    }
+
+    grpc::ClientContext context;
+    kuksa::val::v2::PublishValueRequest request;
+    kuksa::val::v2::PublishValueResponse response;
+
+    request.mutable_signal_id()->set_path(datapoint);
+    auto *data_point = request.mutable_data_point();
+    *data_point->mutable_value() = value;
+
+    // create timestamp
+    auto now = std::chrono::system_clock::now();
+    auto seconds = std::chrono::duration_cast<std::chrono::seconds>(
+        now.time_since_epoch());
+    auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(
+        now.time_since_epoch() - seconds);
+
+    auto *timestamp = data_point->mutable_timestamp();
+    timestamp->set_seconds(seconds.count());
+    timestamp->set_nanos(nanos.count());
+
+    grpc::Status status = mStubV2->PublishValue(&context, request, &response);
+
+    if (!status.ok()) {
+      mLogger->debug("RPC failed: {}", status.error_message());
+      return false;
+    }
+
+    return true;
+  }
+
 private:
   std::shared_ptr<grpc::Channel> mChannel;
   std::unique_ptr<kuksa::val::v1::VAL::Stub> mStubV1;
@@ -347,11 +387,6 @@ bool KuksaClient::set(const std::string &datapoint,
   return mKuksaClient->set(datapoint, value);
 }
 
-bool KuksaClient::set(const std::string &datapoint,
-                      const kuksa::val::v2::Value &value) {
-  return mKuksaClient->set(datapoint, value);
-}
-
 void KuksaClient::subscribe(const std::vector<std::string> &datapoints,
                             kuksaCallbackV1 callback) {
   return mKuksaClient->subscribe(datapoints, callback);
@@ -362,4 +397,13 @@ void KuksaClient::subscribe(const std::vector<std::string> &datapoints,
   return mKuksaClient->subscribe(datapoints, callback);
 }
 
+bool KuksaClient::actuate(const std::string &datapoint,
+                          const kuksa::val::v2::Value &value) {
+  return mKuksaClient->actuate(datapoint, value);
+}
+
+bool KuksaClient::publishValue(const std::string &datapoint,
+                               const kuksa::val::v2::Value &value) {
+  return mKuksaClient->publishValue(datapoint, value);
+}
 } // namespace kuksa

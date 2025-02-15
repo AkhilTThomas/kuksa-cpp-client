@@ -36,6 +36,10 @@ void handleValue(const kuksa::val::v2::Value &value) {
   case kuksa::val::v2::Value::kDouble:
     std::cout << "Double value: " << value.double_() << std::endl;
     break;
+  // Handle initial callback on subscripoton confirmation
+  // No value is set by the broker
+  case kuksa::val::v2::Value::TYPED_VALUE_NOT_SET:
+    break;
   default:
     std::cout << "Unsupported value type" << std::endl;
     break;
@@ -44,7 +48,9 @@ void handleValue(const kuksa::val::v2::Value &value) {
 
 void on_data_reception_v2(const std::string &path,
                           const kuksa::val::v2::Value &value) {
-  std::cout << "Received " << path << std::endl;
+  std::cout << "Subscription callback invoked on VSS point " << path
+            << std::endl;
+
   handleValue(value);
 }
 
@@ -61,13 +67,13 @@ int main() {
   bool connectionStatus = instance.connect_v2("127.0.0.1:55555");
   printf("Connection is %s \n",
          (connectionStatus == true) ? "Succesfull" : "Failed");
+
   sleep(2);
 
   // Set value to Vehicle.Speed
   kuksa::val::v2::Value value{};
-  value.set_bool_(true);
-  std::cout << value.typed_value_case() << std::endl;
-  instance.set("Vehicle.ADAS.ABS.IsEnabled", value);
+  value.set_float_(52.47f);
+  instance.publishValue("Vehicle.Speed", value);
 
   // Read back the value
   if (instance.get("Vehicle.Speed", value)) {
@@ -77,7 +83,8 @@ int main() {
   sleep(1);
 
   // Subscribe to multiple signals
-  std::vector<std::string> signals = {"Vehicle.Speed", "Vehicle.Width"};
+  std::vector<std::string> signals = {
+      "Vehicle.Speed", "Vehicle.Powertrain.ElectricMotor.Temperature"};
   instance.subscribe(signals, on_data_reception_v2);
 
   sleep(10);
