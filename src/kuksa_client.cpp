@@ -1,3 +1,15 @@
+/********************************************************************************
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License 2.0 which is available at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 #include "kuksa/val/v1/types.pb.h"
 #include "kuksa/val/v1/val.pb.h"
 #include "kuksa/val/v2/types.pb.h"
@@ -33,7 +45,7 @@ public:
     }
   };
 
-  // V1 APIs
+  // --------------------------- V1 APIs -------------------------------
 
   bool connect_v1(const std::string &server) {
     mLogger->info("Connect V1 called on {}", server);
@@ -161,6 +173,8 @@ public:
 
     mSubscribeThread.detach();
   }
+
+  // --------------------------- V2 APIs -------------------------------
 
   bool connect_v2(const std::string &server) {
     mLogger->info("Connect V2 called on {}", server);
@@ -308,7 +322,7 @@ private:
 KuksaClient::KuksaClient()
     : mKuksaClient(std::make_unique<KuksaClientImpl>()) {}
 
-KuksaClient::~KuksaClient(){};
+KuksaClient::~KuksaClient() {};
 
 bool KuksaClient::connect_v1(const std::string &server) {
   return mKuksaClient->connect_v1(server);

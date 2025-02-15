@@ -1,3 +1,15 @@
+/********************************************************************************
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License 2.0 which is available at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 #include <ostream>
 #include <stdio.h>
 #include <unistd.h>
@@ -44,24 +56,28 @@ void on_data_reception_v1(const std::string &path,
 int main() {
   std::cout << "Starting example for v2 ..." << std::endl;
   KuksaClient instance;
+
+  // Connect to the databroker
   bool connectionStatus = instance.connect_v2("127.0.0.1:55555");
   printf("Connection is %s \n",
          (connectionStatus == true) ? "Succesfull" : "Failed");
   sleep(2);
 
+  // Set value to Vehicle.Speed
   kuksa::val::v2::Value value{};
+  value.set_bool_(true);
+  std::cout << value.typed_value_case() << std::endl;
+  instance.set("Vehicle.ADAS.ABS.IsEnabled", value);
+
+  // Read back the value
   if (instance.get("Vehicle.Speed", value)) {
+    handleValue(value);
   }
-  handleValue(value);
+
   sleep(1);
 
-  value.set_float_(41.4f);
-
-  std::cout << value.typed_value_case() << std::endl;
-  instance.set("Vehicle.Speed", value);
-
+  // Subscribe to multiple signals
   std::vector<std::string> signals = {"Vehicle.Speed", "Vehicle.Width"};
-
   instance.subscribe(signals, on_data_reception_v2);
 
   sleep(10);
