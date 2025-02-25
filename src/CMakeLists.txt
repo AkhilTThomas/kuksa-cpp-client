@@ -9,8 +9,8 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 # SPDX-License-Identifier: Apache-2.0
-#*******************************************************************************/
-add_library(${PROJECT_NAME} STATIC kuksa_client.cpp)
+# *******************************************************************************/
+add_library(${PROJECT_NAME} SHARED kuksa_client.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME} spdlog::spdlog gRPC::grpc++

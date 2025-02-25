@@ -17,7 +17,7 @@ add_library(proto-objects OBJECT ${PROTO_FILES})
 
 target_link_libraries(proto-objects PUBLIC protobuf::libprotobuf gRPC::grpc++)
 
-set(PROTO_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+set(PROTO_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/proto")
 set(PROTO_IMPORT_DIRS "${CMAKE_SOURCE_DIR}/proto")
 
 # Ensure the output directory exists
@@ -58,4 +58,4 @@ foreach(proto_file ${proto_files})
 endforeach()
 
 # install the proto generated types
-install(DIRECTORY ${PROTO_BINARY_DIR}/ DESTINATION include/kuksaclient)
+install(DIRECTORY ${PROTO_BINARY_DIR}/ DESTINATION include/)

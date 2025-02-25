@@ -14,10 +14,16 @@
 cmake_minimum_required(VERSION 3.15)
 project(kuksaclient)
 
+# Specify the C++ standard
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 find_package(gRPC REQUIRED)
-find_package(protobuf CONFIG REQUIRED)
+find_package(Protobuf REQUIRED)
 find_package(spdlog REQUIRED)
 
 add_subdirectory(src)
