@@ -362,7 +362,7 @@ private:
 KuksaClient::KuksaClient()
     : mKuksaClient(std::make_unique<KuksaClientImpl>()) {}
 
-KuksaClient::~KuksaClient() {};
+KuksaClient::~KuksaClient(){};
 
 bool KuksaClient::connect_v1(const std::string &server) {
   return mKuksaClient->connect_v1(server);
