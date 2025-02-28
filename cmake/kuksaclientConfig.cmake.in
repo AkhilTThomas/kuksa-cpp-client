@@ -1,4 +1,4 @@
-#********************************************************************************
+#******************************************************************************
 # Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -9,7 +9,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 # SPDX-License-Identifier: Apache-2.0
-#*******************************************************************************/
+#*****************************************************************************/
 set(KUKSACLIENT_VERSION 0.0.1)
 
 set_and_check(KUKSACLIENT_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")

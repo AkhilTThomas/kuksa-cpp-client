@@ -1,4 +1,4 @@
-# ********************************************************************************
+# *****************************************************************************
 # Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional information
@@ -9,7 +9,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 # SPDX-License-Identifier: Apache-2.0
-# *******************************************************************************/
+# *****************************************************************************/
 add_library(${PROJECT_NAME} SHARED kuksa_client.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
