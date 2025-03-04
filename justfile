@@ -23,7 +23,7 @@ default:
 
 prepare:
     pip install conan==2.11.0
-    conan remote add conancenter https://center.conan.io
+    conan remote add conancenter https://center2.conan.io --force
 
 configure:
     conan install . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt  --build=missing
