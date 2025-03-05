@@ -11,10 +11,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # ****************************************************************************/
 
-set(EXAMPLES example_v1 example_v2)
+set(examples example_v1 example_v2)
 
 foreach(example ${examples})
-  add_executable(${example} ${examples}.cpp)
+  add_executable(${example} ${example}.cpp)
 
   target_link_libraries(${example} kuksaclient)
   target_link_directories(${example} PRIVATE ${CMAKE_BINARY_DIR})
