@@ -45,7 +45,13 @@ using kuksaCallbackV2 = std::function<void(const std::string &path,
  */
 class KuksaClient {
 public:
+  // Default Constructor
   KuksaClient();
+
+  // Stub injected constructor for testing
+  explicit KuksaClient(
+      std::unique_ptr<kuksa::val::v2::VAL::StubInterface> stub);
+
   ~KuksaClient();
 
   bool connect_v1(const std::string &server);

@@ -45,3 +45,4 @@ jobs:
           just prepare
           just configure
           just build
+          just run-unit-test
