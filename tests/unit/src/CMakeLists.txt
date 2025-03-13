@@ -12,24 +12,22 @@
 # *****************************************************************************/
 
 cmake_minimum_required(VERSION 3.15)
-project(kuksaclient)
 
-# Specify the C++ standard
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+find_package(GTest REQUIRED)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+add_executable(ut_kuksa test_basic.cpp)
 
-find_package(gRPC REQUIRED)
-find_package(Protobuf REQUIRED)
-find_package(spdlog REQUIRED)
+target_include_directories(ut_kuksa PRIVATE ${PROJECT_SOURCE_DIR}/src/)
 
-add_subdirectory(src)
-add_subdirectory(example)
+target_link_libraries(
+  ut_kuksa PRIVATE kuksaclient GTest::gtest GTest::gtest_main GTest::gmock
+                   GTest::gmock_main proto-objects)
 
-include(cmake/config.cmake)
+# ensure test binary gets copied over to the binary folder
+set_target_properties(ut_kuksa PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+                                          ${CMAKE_BINARY_DIR}/bin)
 
-enable_testing()
-add_subdirectory(tests/unit/src)
+add_test(
+  NAME UT_KUKSA
+  COMMAND ut_kuksa
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

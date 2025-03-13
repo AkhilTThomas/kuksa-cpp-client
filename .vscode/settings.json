@@ -1,0 +1,8 @@
+{
+    "testMate.cpp.test.advancedExecutables": [
+        {
+            "name": "kuksaTest",
+            "pattern": "build/Release/bin/ut_kuksa"
+        }
+    ]
+}

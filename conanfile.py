@@ -1,4 +1,4 @@
-#********************************************************************************
+# ********************************************************************************
 # Copyright (c) 2023 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -9,7 +9,7 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 #
 # SPDX-License-Identifier: Apache-2.0
-#*******************************************************************************/
+# *******************************************************************************/
 
 from conan import ConanFile
 from conan.tools.cmake import CMake, cmake_layout
@@ -28,6 +28,10 @@ class KuksaCppClient(ConanFile):
     def requirements(self):
         self.requires("grpc/1.50.0")
         self.requires("spdlog/1.15.0")
+
+    # Test dependencies
+    def build_requirements(self):
+        self.test_requires("gtest/1.16.0")
 
     # Building with CMake
     def build(self):

@@ -31,6 +31,9 @@ configure:
 build:
     conan build . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt
 
+# run the unit test cases
+run-unit-test:
+    ctest --test-dir build/Release/
 # run the databroker in a seperate windows
 run-databroker:
     tmux new-window -n kuksa docker run --rm -it -p 55555:55555 -v $(pwd):/tmp ghcr.io/eclipse-kuksa/kuksa-databroker:main --insecure --vss /tmp/data/vss-core/vss_release_4.0.json
