@@ -26,14 +26,18 @@ prepare:
     conan remote add conancenter https://center2.conan.io --force
 
 configure:
-    conan install . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt  --build=missing
+    conan install . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt --build=missing
 
 build:
     conan build . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt
 
+build-with-tests:
+    conan build . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt --options "enable_unit_tests=True"
+
 # run the unit test cases
 run-unit-test:
     ctest --test-dir build/Release/
+
 # run the databroker in a seperate windows
 run-databroker:
     tmux new-window -n kuksa docker run --rm -it -p 55555:55555 -v $(pwd):/tmp ghcr.io/eclipse-kuksa/kuksa-databroker:main --insecure --vss /tmp/data/vss-core/vss_release_4.0.json

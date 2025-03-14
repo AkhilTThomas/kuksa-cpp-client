@@ -56,24 +56,26 @@ foreach(proto_file ${proto_files})
     PROTOS
     ${proto_file})
 
-  # Generate gRPC mock services
-  protobuf_generate(
-    TARGET
-    proto-objects
-    LANGUAGE
-    grpc
-    GENERATE_EXTENSIONS
-    .grpc.mock.pb.h
-    PLUGIN
-    "protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>"
-    PLUGIN_OPTIONS
-    "generate_mock_code=true"
-    IMPORT_DIRS
-    ${PROTO_IMPORT_DIRS}
-    PROTOC_OUT_DIR
-    "${PROTO_BINARY_DIR}/${PROTO_DIR}"
-    PROTOS
-    ${proto_file})
+  if(ENABLE_UNIT_TESTS STREQUAL "ON")
+    # Generate gRPC mock services
+    protobuf_generate(
+      TARGET
+      proto-objects
+      LANGUAGE
+      grpc
+      GENERATE_EXTENSIONS
+      .grpc.mock.pb.h
+      PLUGIN
+      "protoc-gen-grpc=$<TARGET_FILE:gRPC::grpc_cpp_plugin>"
+      PLUGIN_OPTIONS
+      "generate_mock_code=true"
+      IMPORT_DIRS
+      ${PROTO_IMPORT_DIRS}
+      PROTOC_OUT_DIR
+      "${PROTO_BINARY_DIR}/${PROTO_DIR}"
+      PROTOS
+      ${proto_file})
+  endif()
 endforeach()
 
 # install the proto generated types
