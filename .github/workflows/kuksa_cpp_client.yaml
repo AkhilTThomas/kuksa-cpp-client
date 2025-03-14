@@ -53,11 +53,8 @@ jobs:
         run: |
           just build-with-tests
           just run-unit-test
-
-      - name: Generate HTML Report
-        uses: threeal/gcovr-action@v1.1.0
+      # Uploaded result available at https://app.codecov.io/gh/AkhilTThomas/kuksa-cpp-client
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
         with:
-          html-out: coverage.html
-          html-details: true
-          html-title: KUKSA CPP CLIENT
-          html-theme: github.green
+          file: build/Release/lcov.info
