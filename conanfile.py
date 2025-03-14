@@ -21,7 +21,7 @@ class KuksaCppClient(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps"
     options = {"enable_unit_tests": [True, False]}
-    default_options = {"enable_unit_tests": True}
+    default_options = {"enable_unit_tests": False}
 
     def layout(self):
         cmake_layout(self)
@@ -33,8 +33,7 @@ class KuksaCppClient(ConanFile):
 
     # Test dependencies
     def build_requirements(self):
-        if self.options.enable_unit_tests:
-            self.test_requires("gtest/1.16.0")
+        self.test_requires("gtest/1.16.0")
 
     # Building with CMake
     def build(self):
