@@ -1,5 +1,8 @@
 # CPP based Kuksa client
 
+[![codecov](https://codecov.io/gh/AkhilTThomas/kuksa-cpp-client/graph/badge.svg?token=TKTZN8SOBB)](https://codecov.io/gh/AkhilTThomas/kuksa-cpp-client)
+[![Build & Test](https://github.com/AkhilTThomas/kuksa-cpp-client/workflows/kuksa_cpp_client/badge.svg)](https://github.com/AkhilTThomas/kuksa-cpp-client/actions/workflows/kuksa_cpp_client.yaml?query=branch%3Amaster++)
+
 A pluggable C++ based library to talk to [kuksa-databroker](https://github.com/eclipse-kuksa/kuksa-databroker)
 based on kuksa-proto v2 API
 

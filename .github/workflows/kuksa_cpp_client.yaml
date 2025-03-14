@@ -29,7 +29,7 @@ concurrency:
 jobs:
 
   kuksa-cpp-client-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout kuksa-incubation
@@ -43,6 +43,9 @@ jobs:
       - name: Get Conan
         uses: turtlebrowser/get-conan@v1.0
 
+      - name: Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@v1
+
       - name: Build kuksa_cpp_client
         run: |
           just prepare
@@ -53,8 +56,11 @@ jobs:
         run: |
           just build-with-tests
           just run-unit-test
+          just run-coverage
       # Uploaded result available at https://app.codecov.io/gh/AkhilTThomas/kuksa-cpp-client
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
         with:
-          file: build/Release/lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: build/Release
+          files: lcov.info
