@@ -33,6 +33,15 @@ if(ENABLE_UNIT_TESTS STREQUAL "ON")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fprofile-arcs -ftest-coverage")
   # Required for gcovr
   find_package(Python3 REQUIRED COMPONENTS Interpreter)
+  find_program(LCOV_EXECUTABLE NAMES lcov REQUIRED)
+  # get lcov data
+  add_custom_target(
+    lcov_capture
+    COMMAND ${LCOV_EXECUTABLE} --capture --directory ${CMAKE_BINARY_DIR}
+            --output-file lcov.info
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Capturing coverage data with lcov...")
+  # get gcov data
   add_custom_target(
     coverage
     COMMAND ${CMAKE_COMMAND} -E make_directory coverage

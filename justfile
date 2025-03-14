@@ -41,7 +41,7 @@ run-unit-test:
 
 # Generate coverage report
 run-coverage:
-  cmake --build build/Release --target coverage
+  cmake --build build/Release --target coverage lcov_capture
 
 # run the databroker in a seperate windows
 run-databroker:
