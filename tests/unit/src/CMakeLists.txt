@@ -13,15 +13,19 @@
 
 cmake_minimum_required(VERSION 3.15)
 
-find_package(GTest REQUIRED)
-
 add_executable(ut_kuksa test_basic.cpp)
 
 target_include_directories(ut_kuksa PRIVATE ${PROJECT_SOURCE_DIR}/src/)
 
 target_link_libraries(
-  ut_kuksa PRIVATE kuksaclient GTest::gtest GTest::gtest_main GTest::gmock
-                   GTest::gmock_main proto-objects)
+  ut_kuksa
+  PRIVATE kuksaclient
+          GTest::gtest
+          GTest::gtest_main
+          GTest::gmock
+          GTest::gmock_main
+          proto-objects
+          gcov)
 
 # ensure test binary gets copied over to the binary folder
 set_target_properties(ut_kuksa PROPERTIES RUNTIME_OUTPUT_DIRECTORY

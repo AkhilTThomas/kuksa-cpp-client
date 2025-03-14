@@ -45,4 +45,7 @@ jobs:
           just prepare
           just configure
           just build
+      - name: Run unit test
+        run: |
+          just build-with-tests
           just run-unit-test
