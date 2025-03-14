@@ -39,6 +39,21 @@ just build
 
 Proto sources are available in the submodule kuksa-common
 
+## Testing
+
+Unit tests are written using GTest and GMock
+
+```shell
+# build unit tests
+just build-with-tests
+# run unit tests
+just run-unit-tests
+# Generate coverage report
+just run-coverage
+```
+
+Coverage report is genereated under `build/Release/coverage/index.html`
+
 ## Examples
 
 There are two examples provided

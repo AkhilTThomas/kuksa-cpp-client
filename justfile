@@ -23,6 +23,7 @@ default:
 
 prepare:
     pip install conan==2.11.0
+    pip install gcovr==8.3
     conan remote add conancenter https://center2.conan.io --force
 
 configure:
@@ -37,6 +38,10 @@ build-with-tests:
 # run the unit test cases
 run-unit-test:
     ctest --test-dir build/Release/
+
+# Generate coverage report
+run-coverage:
+  cmake --build build/Release --target coverage
 
 # run the databroker in a seperate windows
 run-databroker:
