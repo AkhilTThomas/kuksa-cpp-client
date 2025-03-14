@@ -36,16 +36,28 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
       - name: Setup Just
         uses: extractions/setup-just@v2
+
       - name: Get Conan
         uses: turtlebrowser/get-conan@v1.0
+
       - name: Build kuksa_cpp_client
         run: |
           just prepare
           just configure
           just build
+
       - name: Run unit test
         run: |
           just build-with-tests
           just run-unit-test
+
+      - name: Generate HTML Report
+        uses: threeal/gcovr-action@v1.1.0
+        with:
+          html-out: coverage.html
+          html-details: true
+          html-title: KUKSA CPP CLIENT
+          html-theme: github.green

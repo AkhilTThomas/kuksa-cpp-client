@@ -21,7 +21,7 @@ class KuksaCppClient(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps"
     options = {"enable_unit_tests": [True, False]}
-    default_options = {"enable_unit_tests": False}
+    default_options = {"enable_unit_tests": True}
 
     def layout(self):
         cmake_layout(self)

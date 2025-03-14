@@ -36,8 +36,11 @@ if(ENABLE_UNIT_TESTS STREQUAL "ON")
   add_custom_target(
     coverage
     COMMAND ${CMAKE_COMMAND} -E make_directory coverage
-    COMMAND ${Python3_EXECUTABLE} -m gcovr -r ${CMAKE_SOURCE_DIR} --html
-            --html-nested -o coverage/index.html
+    COMMAND
+      ${Python3_EXECUTABLE} -m gcovr -r ${CMAKE_SOURCE_DIR} --html --html-nested
+      -o coverage/index.html --filter '${CMAKE_SOURCE_DIR}/src' --filter
+      '${CMAKE_SOURCE_DIR}/include' --exclude '${CMAKE_SOURCE_DIR}/tests'
+      --exclude '${CMAKE_SOURCE_DIR}/example'
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Generating HTML coverage report...")
   find_package(GTest REQUIRED)

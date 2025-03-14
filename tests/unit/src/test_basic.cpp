@@ -67,6 +67,51 @@ TEST(KuksaClientTest, publish_value) {
   EXPECT_TRUE(status);
 }
 
+TEST(KuksaClientTest, actuate) {
+  auto mock_stub = std::make_unique<kuksa::val::v2::MockVALStub>();
+
+  EXPECT_CALL(*mock_stub, Actuate)
+      .WillOnce([](grpc::ClientContext *ctx,
+                   const kuksa::val::v2::ActuateRequest &request,
+                   kuksa::val::v2::ActuateResponse *response) -> grpc::Status {
+        EXPECT_EQ(request.signal_id().path(), "Vehicle.Body.Trunk.Rear.IsOpen");
+        EXPECT_EQ(request.value().bool_(), true);
+        return grpc::Status::OK;
+      });
+
+  kuksa::KuksaClient client(std::move(mock_stub));
+  kuksa::val::v2::Value value{};
+  value.set_bool_(true);
+  bool status = client.actuate("Vehicle.Body.Trunk.Rear.IsOpen", value);
+
+  EXPECT_TRUE(status);
+}
+
+TEST(KuksaClientTest, getServerInfo) {
+  auto mock_stub = std::make_unique<kuksa::val::v2::MockVALStub>();
+
+  EXPECT_CALL(*mock_stub, GetServerInfo)
+      .WillOnce(
+          [](grpc::ClientContext *ctx,
+             const kuksa::val::v2::GetServerInfoRequest &request,
+             kuksa::val::v2::GetServerInfoResponse *response) -> grpc::Status {
+            *response->mutable_name() = "kuksa_gtest_mock";
+            *response->mutable_version() = "1.2.3";
+            *response->mutable_commit_hash() = "123456789abcdefg";
+            return grpc::Status::OK;
+          });
+
+  kuksa::KuksaClient client(std::move(mock_stub));
+
+  kuksa::val::v2::GetServerInfoResponse serverInfo{};
+  bool status = client.getServerInfo(serverInfo);
+
+  EXPECT_TRUE(status);
+  EXPECT_EQ(serverInfo.name(), "kuksa_gtest_mock");
+  EXPECT_EQ(serverInfo.version(), "1.2.3");
+  EXPECT_EQ(serverInfo.commit_hash(), "123456789abcdefg");
+}
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
