@@ -37,7 +37,7 @@ build-with-tests:
 
 # run the unit test cases
 run-unit-test:
-    ctest --test-dir build/Release/
+    ctest --test-dir build/Release/ -V
 
 # Generate coverage report
 run-coverage:
