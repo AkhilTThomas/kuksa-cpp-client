@@ -22,18 +22,17 @@ default:
     @just --list
 
 prepare:
-    pip install conan==2.11.0
-    pip install gcovr==8.3
-    conan remote add conancenter https://center2.conan.io --force
+    uv sync
+    uv run conan remote add conancenter https://center2.conan.io --force
 
 configure:
-    conan install . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt --build=missing
+    uv run conan install . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt --build=missing
 
 build:
-    conan build . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt
+    uv run conan build . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt
 
 build-with-tests:
-    conan build . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt --options "enable_unit_tests=True"
+    uv run conan build . -pr:b conan/profile_x86_64_Release.txt -pr:h conan/profile_x86_64_Release.txt --options "enable_unit_tests=True"
 
 # run the unit test cases
 run-unit-test:

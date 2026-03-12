@@ -40,8 +40,8 @@ jobs:
       - name: Setup Just
         uses: extractions/setup-just@v2
 
-      - name: Get Conan
-        uses: turtlebrowser/get-conan@v1.0
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
 
       - name: Setup LCOV
         uses: hrishikesh-kadam/setup-lcov@v1
