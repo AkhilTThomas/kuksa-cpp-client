@@ -1,0 +1,8 @@
+[project]
+name = "kuksa-cpp-client"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "conan==2.11.0",
+    "gcovr==8.3",
+]
